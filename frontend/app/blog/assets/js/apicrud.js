@@ -76,9 +76,8 @@ function get_releases() {
 
 function get_resources(type, outputElement, outypeType, number=1) {
   var xmlhttp;
-  var web = location.hostname.split('.')
-  web[0] = 'api'
-  var api_uri = location.protocol + "//" + web.join('.') + "/v1/" + type + "?items=" + number
+  var api_server = get_cookie("site_api_host");
+  var api_uri = location.protocol + "//" + api_server + "/v1/" + type + "?items=" + number
   if (window.XMLHttpRequest)
   {// code for IE7+, Firefox, Chrome, Opera, Safari
     xmlhttp=new XMLHttpRequest();
