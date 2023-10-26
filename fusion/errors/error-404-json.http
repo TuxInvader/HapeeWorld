@@ -1,0 +1,8 @@
+HTTP/1.1 404 Not Found
+Cache-Control: no-cache
+Connection: close
+Content-Type: application/json
+Access-Control-Allow-Origin: "*"
+
+
+{ "errors" : [ { "status" : "404", "title" : "Not Found", "detail" : "The request resource could not be found" } ] }

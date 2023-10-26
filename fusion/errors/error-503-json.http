@@ -1,0 +1,11 @@
+HTTP/1.1 503 Service Unavailable
+Cache-Control: no-cache
+Connection: close
+Content-Type: application/json
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, Authorization
+Access-Control-Max-Age: 3600
+Access-Control-Allow-Methods: GET, OPTIONS, POST, PUT
+
+
+{ "errors" : [ { "status" : "503", "title" : "Service unavailable", "detail" : "No server is available to handle this request." } ] }

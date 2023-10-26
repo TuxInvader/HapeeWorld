@@ -1,0 +1,83 @@
+extends layout
+
+block content
+  -data = data || {}
+
+  script(src='/js/sysadmin.js')
+  div.container-fluid
+    h2=title
+
+    a(href="/sysadmin/registrations").btn.btn-primary View Registrations
+
+    div.container-fluid.pt-5
+    h2
+      | Site  Settings 
+
+    div.form-wrapper
+      form(action="/sysadmin", method="post")
+
+        fieldset 
+          legend Display Items Settings
+          div.mb-3
+            div.form-group
+              label(for="homePageBlogs") Blog Entries on Home page
+              input(id="homePageBlogs" name="site_blog_count").form-control
+
+          div.mb-3
+            div.form-group
+              label(for="aboutPageReleases") Software Information on About page
+              input(id="aboutPageReleases" name="site_release_count").form-control
+
+        fieldset 
+          legend Beverages
+          div.mb-3
+            div.form-group
+              div.form-check
+                input(type="radio" name="site_coffee_enabled" id="coffeeEnabled" value="true").form-check-input
+                label(for="coffeeEnabled") Allow Coffee Access 
+              div.form-check
+                input(type="radio" name="site_coffee_enabled" id="coffeeDisabled" value="false").form-check-input
+                label(for="coffeeDisabled") Deny Coffee Access 
+
+          div.mb-3
+            div.form-group
+              div.form-check
+                input(type="radio" name="site_coffee_deny_action" id="coffeeRewrite" value="rewrite").form-check-input
+                label(for="coffeeEnabled") Rewrite Coffee Access 
+              div.form-check
+                input(type="radio" name="site_coffee_deny_action" id="coffeeRedirect" value="redirect").form-check-input
+                label(for="coffeeDisabled") Redirect Coffee Access 
+
+        fieldset 
+          legend Content Cache Settings
+          div.mb-3
+            div.form-group
+              div.form-check
+                input(type="radio" name="site_local_cache_enabled" id="localCacheEnabled" value="true").form-check-input
+                label(for="localCacheEnabled") Enable Local Content-Cache 
+              div.form-check
+                input(type="radio" name="site_local_cache_enabled" id="localCacheDisabled" value="false").form-check-input
+                label(for="localCacheDisabled") Disable Local Content-Cache
+
+          div.mb-3
+            div.form-group
+              label(for="localMaxAge") Maximum age of local cache resources
+              input(id="localMaxAge" name="site_local_cache_max_age").form-control
+
+          div.mb-3
+            div.form-group
+              div.form-check
+                input(type="radio" name="site_proxy_cache_enabled" id="proxyCacheEnabled" value="true").form-check-input
+                label(for="localCacheEnabled") Enable Proxy Content-Cache 
+              div.form-check
+                input(type="radio" name="site_proxy_cache_enabled" id="proxyCacheDisabled" value="false").form-check-input
+                label(for="localCacheDisabled") Disable Proxy Content-Cache
+          
+          div.mb-3
+            div.form-group
+              label(for="proxyMaxAge") Maximum age of proxied cache resources
+              input(id="proxyMaxAge" name="site_proxy_cache_max_age").form-control
+
+        button(type="submit").btn.btn-primary Submit
+
+    <script>update_settings()</script>

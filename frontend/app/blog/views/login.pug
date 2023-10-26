@@ -1,0 +1,38 @@
+extends layout
+
+block content
+  -data = data || {}
+
+  div.form-wrapper
+    if errors
+      ul.error-messages
+        for error in errors
+          li= error.msg
+
+    form(action="/login" method="POST")
+      div.mb-3
+        label(for="email" class="form-label") Email:
+        input(
+          type="email"
+          class="form-control"
+          id="email"
+          name="email"
+          placeholder="you@yours.tld"
+          value=data.email
+        )
+      div.mb-3
+        label(for="password" class="form-label") Password:
+        input(
+          type="password"
+          class="form-control"
+          id="password"
+          name="password"
+          placeholder="Password"
+          value=data.password
+        )
+
+      input(
+        type="submit"
+        class="btn btn-primary"
+        value="Login"
+      )

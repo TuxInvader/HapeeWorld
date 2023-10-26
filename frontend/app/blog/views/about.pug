@@ -1,0 +1,28 @@
+extends layout
+
+block content
+  -data = data || {}
+
+  div.container-fluid
+    div.container
+      h2=title
+
+      p 
+        | We are HA Proxy Technology. We rock.
+
+    div.container 
+      h2 Your Connection
+      div
+        table(id="hapee_sys").table
+      div
+        table(id="hapee_hw").table
+
+    div.container
+      h2 Latest HA Proxy releases
+      table(id="releasetable").table 
+
+
+
+    script get_releases()
+    script get_connection_info()
+

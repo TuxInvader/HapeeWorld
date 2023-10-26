@@ -1,0 +1,58 @@
+
+.nav-item .dropdown-menu {
+    --bs-dropdown-min-width: 12rem;
+    --bs-dropdown-padding-x: .25rem;
+    --bs-dropdown-padding-y: .25rem;
+    --bs-dropdown-link-hover-bg: rgba(var(--bd-violet-rgb), .1);
+    --bs-dropdown-link-active-bg: rgba(var(--bd-violet-rgb), 1);
+    --bs-dropdown-font-size: .875rem;
+    font-size: .875rem;
+    border-radius: .5rem;
+    box-shadow: var(--bs-box-shadow)
+}
+
+.nav-item .dropdown-menu .active {
+    font-weight: 600;
+    color: currentColor;
+    text-decoration: none;
+    background-color: grey;
+    --bs-dropdown-min-width: 12rem;
+    --bs-dropdown-padding-x: .25rem;
+    --bs-dropdown-padding-y: .25rem;
+    --bs-dropdown-link-hover-bg: rgba(var(--bd-violet-rgb), .1);
+    --bs-dropdown-link-active-bg: rgba(var(--bd-violet-rgb), 1);
+    --bs-dropdown-font-size: .875rem;
+    font-size: .875rem;
+    border-radius: .5rem;
+    box-shadow: var(--bs-box-shadow)
+}
+
+.navbar-nav svg {
+    display: inline-block;
+    vertical-align: -.125rem
+}
+
+.nav-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+.nav-icon-check {
+    width: 1em;
+    height: 1em;
+    color: currentColor;
+    display: block !important;
+}
+
+.navbar-brand:hover {
+    transform: rotate(-5deg) scale(1.1)
+}
+
+.form-wrapper {
+    max-width: 350px;
+    margin: auto;
+}
+  
+.form-wrapper .form-control, .form-wrapper .btn {
+    width: 100%;
+}

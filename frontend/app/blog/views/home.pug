@@ -1,0 +1,81 @@
+extends layout
+
+block content
+  -data = data || {}
+
+  div.container-fluid
+    div(id="carousel", data-bs-ride="carousel", data-bs-wrap="true").carousel.slide
+      div.carousel-indicators
+        button(type="button" data-bs-target="#carousel" data-bs-slide-to="0" aria-current="true" aria-label="Slide 1").active
+        button(type="button" data-bs-target="#carousel" data-bs-slide-to="1" aria-current="true" aria-label="Slide 2")
+        button(type="button" data-bs-target="#carousel" data-bs-slide-to="2" aria-current="true" aria-label="Slide 3")
+      div.carousel-inner
+        div.carousel-item.active
+          img(src="/images/home-slide1.png", alt="HA Proxy Enterprise").d-block.w-100
+          div.carousel-caption.d-none.d-md-block
+            h2 HA Proxy Enterprise
+            p The most awesomest, fasterest, and efficientiest load balancer on the 3rd rock from sol.
+        div.carousel-item
+          img(src="/images/home-slide2.png", alt="HA Proxy Users").d-block.w-100
+          div.carousel-caption.d-none.d-md-block
+            h2 The Peoples Choice 
+            p All these folks just love to jabber on and make a hullabaloo about how awesome HA Proxy is.
+        div.carousel-item
+          img(src="/images/home-slide3.png", alt="...").d-block.w-100
+          div.carousel-caption.d-none.d-md-block
+            h2 Trains 
+            p If HA Proxy were a train, then it would <strong>always</strong> be early.
+      button(type="button", data-bs-target="#carousel", data-bs-slide="prev").carousel-control-prev
+        span(aria-hidden="true").carousel-control-prev-icon
+        span.visually-hidden Previous
+      button(type="button", data-bs-target="#carousel", data-bs-slide="next").carousel-control-next
+        span(aria-hidden="true").carousel-control-next-icon
+        span.visually-hidden Next
+
+  div.container-fluid.py-5
+
+    div(id="accordion1").accordion
+      div.accordion-item 
+        h2.accordion-header
+          button(type="button" data-bs-toggle="collapse" data-bs-target="#collapse1" aria-expanded="true" aria-controls="collapse1").accordion-button The latest Blog posts from HA Proxy
+
+        div(id="collapse1", no-data-bs-parent="#accordion1", style).accordion-collapse.collapse.show
+          div(id="accordionblogs").accordion-body
+
+      div.accordion-item 
+        h2.accordion-header
+          button(type="button" data-bs-toggle="collapse" data-bs-target="#collapse2" aria-expanded="true" aria-controls="collapse2").accordion-button HA Proxy Software Information
+
+        div(id="collapse2", no-data-bs-parent="#accordion1").accordion-collapse.collapse.show
+          div.accordion-body
+
+            p Some information about HA Proxy software versions follows....
+
+              ul 
+                li.py-2 version 2.8 : QUIC now prod ready, Lua-based mailers, OCSP auto updates, LetsEncrypt, wolfSSL support, RFC7239 "forwarded", listeners on more than 64 threads, perf/usability/reliability/observability improvements
+                li.py-2 version 2.7: Traffic shaping, QUIC improvements, thread groups, easier switch to alternate SSL libraries, improved debugging
+                li.py-2 version 2.6: QUIC/HTTP3, OpenSSL 3.0, better usability, improved code accessibility and maintenance
+                li.py-2 version 2.5: runtime server addition/removal, runtime CA/CRL updates, native HTTP client, simplified HTTPS logging, default TCP/HTTP rulesets, JWT validation, and more
+                li.py-2 version 2.4: syslog and DNS over TCP, multi-threaded Lua, full sharing of idle conns, lower latency, server-side dynamic SSL update, Opentracing, WebSocket over H2, atomic maps, Vary support, new debugging tools, even more user-friendly CLI and configuration, lots of cleanups
+                li.py-2 version 2.3: syslog forwarding, better idle conn management, improved balancing with large queues, simplified SSL managment, more stats metrics, stricter config checking by default, general performance improvements
+                li.py-2 version 2.2: runtime certificate additions, improved idle connection management, logging over TCP, HTTP "return" directive, errorfile templates, TLSv1.2 by default, extensible health-checks
+                li.py-2 version 2.1: improved I/Os and multi-threading, FastCGI, runtime certificate updates, HTX-only, improved debugging, removal of obsolete keywords
+                li.py-2 version 2.0: gRPC, layer 7 retries, process manager, SSL peers, log load balancing/sampling, end-to-end TCP fast-open, automatic settings (maxconn, threads, HTTP reuse, pools), ...
+                li.py-2 version 1.9: improved multi-threading, end-to-end HTTP/2, connection pools, queue priority control, stdout logging, ...
+                li.py-2 version 1.8: multi-threading, HTTP/2, cache, on-the fly server addition/removal, seamless reloads, DNS SRV, hardware SSL engines, ...
+                li.py-2 version 1.7: added server hot reconfiguration, content processing agents, multi-type certs, ...
+                li.py-2 version 1.6: added DNS resolution support, HTTP connection multiplexing, full stick-table replication, stateless compression, ...
+                li.py-2 version 1.5: added SSL, IPv6, keep-alive, DDoS protection, ...
+
+      div.accordion-item 
+        h2.accordion-header
+          button(type="button" data-bs-toggle="collapse" data-bs-target="#collapse3" aria-expanded="false" aria-controls="collapse3").accordion-button.collapsed Monty Python
+
+        div(id="collapse3", no-data-bs-parent="#accordion1").accordion-collapse.collapse
+          div.accordion-body
+
+            p and now for something completely different
+      <script>
+        | get_blogs()
+      </script>
+
