@@ -4,7 +4,7 @@ block content
   -data = data || {}
 
   script(src='/js/sysadmin.js')
-  div.container-fluid
+  div.container-fluid.pt-2
     h2=title
 
     a(href="/sysadmin/registrations").btn.btn-primary View Registrations
@@ -13,81 +13,91 @@ block content
     h2
       | Site  Settings 
 
-    div.form-wrapper
-      form(action="/sysadmin", method="post")
+    form(action="/sysadmin", method="post")
 
-        fieldset 
-          legend Display Items Settings
-          div.mb-3
-            div.form-group
-              label(for="homePageBlogs") Blog Entries on Home page
-              input(id="homePageBlogs" name="site_blog_count").form-control
+      div.container    
+        div.row.h-auto.py-2
+          div.col-sm.w-50.d-flex.align-items-stretch
+            div.card.w-100
+              div.card-body 
+                div.card-title Display Items Settings
+                div.card-text
+                  div.form-group
+                    label(for="homePageBlogs") Blog Entries on Home page
+                    input(id="homePageBlogs" name="site_blog_count").form-control
 
-          div.mb-3
-            div.form-group
-              label(for="aboutPageReleases") Software Information on About page
-              input(id="aboutPageReleases" name="site_release_count").form-control
+                
+                  div.form-group
+                    label(for="aboutPageReleases") Software Information on About page
+                    input(id="aboutPageReleases" name="site_release_count").form-control
 
-        fieldset 
-          legend Beverages
-          div.mb-3
-            div.form-group
-              div.form-check
-                input(type="radio" name="site_coffee_enabled" id="coffeeEnabled" value="true").form-check-input
-                label(for="coffeeEnabled") Allow Coffee Access 
-              div.form-check
-                input(type="radio" name="site_coffee_enabled" id="coffeeDisabled" value="false").form-check-input
-                label(for="coffeeDisabled") Deny Coffee Access 
+          div.col-sm.w-50.d-flex.align-items-stretch
+            div.card.w-100
+              div.card-body 
+                div.card-title Beverages
+                div.card-text
 
-          div.mb-3
-            div.form-group
-              div.form-check
-                input(type="radio" name="site_coffee_deny_action" id="coffeeRewrite" value="rewrite").form-check-input
-                label(for="coffeeRewrite") Rewrite Coffee Access 
-              div.form-check
-                input(type="radio" name="site_coffee_deny_action" id="coffeeRedirect" value="redirect").form-check-input
-                label(for="coffeeRedirect") Redirect Coffee Access 
+                  div.form-group
+                    div.form-check
+                      input(type="radio" name="site_coffee_enabled" id="coffeeEnabled" value="true").form-check-input
+                      label(for="coffeeEnabled").form-check-label Allow Coffee Access 
+                    div.form-check
+                      input(type="radio" name="site_coffee_enabled" id="coffeeDisabled" value="false").form-check-input
+                      label(for="coffeeDisabled").form-check-label Deny Coffee Access 
 
-        fieldset 
-          legend Content Cache Settings
-          div.mb-3
-            div.form-group
-              div.form-check
-                input(type="radio" name="site_local_cache_enabled" id="localCacheEnabled" value="true").form-check-input
-                label(for="localCacheEnabled") Enable Local Content-Cache 
-              div.form-check
-                input(type="radio" name="site_local_cache_enabled" id="localCacheDisabled" value="false").form-check-input
-                label(for="localCacheDisabled") Disable Local Content-Cache
 
-          div.mb-3
-            div.form-group
-              label(for="localMaxAge") Maximum age of local cache resources
-              input(id="localMaxAge" name="site_local_cache_max_age").form-control
+                  div.form-group
+                    div.form-check
+                      input(type="radio" name="site_coffee_deny_action" id="coffeeRewrite" value="rewrite").form-check-input
+                      label(for="coffeeRewrite" id='coffeeRewriteLabel').form-check-label Rewrite Coffee Access 
+                    div.form-check
+                      input(type="radio" name="site_coffee_deny_action" id="coffeeRedirect" value="redirect").form-check-input
+                      label(for="coffeeRedirect" id='coffeeRedirectLabel').form-check-label Redirect Coffee Access 
+        div.row.h-auto.py-2
+          div.col-sm.w-50.d-flex.align-items-stretch
+            div.card.w-100
+              div.card-body 
+                div.card-title Content Cache Settings
+                div.card-text
+                  div.form-group
+                    div.form-check
+                      input(type="radio" name="site_local_cache_enabled" id="localCacheEnabled" value="true").form-check-input
+                      label(for="localCacheEnabled") Enable Local Content-Cache 
+                    div.form-check
+                      input(type="radio" name="site_local_cache_enabled" id="localCacheDisabled" value="false").form-check-input
+                      label(for="localCacheDisabled") Disable Local Content-Cache
 
-          div.mb-3
-            div.form-group
-              div.form-check
-                input(type="radio" name="site_proxy_cache_enabled" id="proxyCacheEnabled" value="true").form-check-input
-                label(for="localCacheEnabled") Enable Proxy Content-Cache 
-              div.form-check
-                input(type="radio" name="site_proxy_cache_enabled" id="proxyCacheDisabled" value="false").form-check-input
-                label(for="localCacheDisabled") Disable Proxy Content-Cache
-          
-          div.mb-3
-            div.form-group
-              label(for="proxyMaxAge") Maximum age of proxied cache resources
-              input(id="proxyMaxAge" name="site_proxy_cache_max_age").form-control
 
-        fieldset 
-          legend Backend mode
-          div.mb-3
-            div.form-group
-              div.form-check
-                input(type="radio" name="site_proxy_live_enabled" id="proxyLiveEnabled" value="true").form-check-input
-                label(for="localCacheEnabled") Backends fetch live data from internet 
-              div.form-check
-                input(type="radio" name="site_proxy_live_enabled" id="proxyLiveDisabled" value="false").form-check-input
-                label(for="localCacheDisabled") Backends use local data (offline)
+                  div.form-group
+                    label(for="localMaxAge") Maximum age of local cache resources
+                    input(id="localMaxAge" name="site_local_cache_max_age").form-control
+
+
+                  div.form-group
+                    div.form-check
+                      input(type="radio" name="site_proxy_cache_enabled" id="proxyCacheEnabled" value="true").form-check-input
+                      label(for="localCacheEnabled") Enable Proxy Content-Cache 
+                    div.form-check
+                      input(type="radio" name="site_proxy_cache_enabled" id="proxyCacheDisabled" value="false").form-check-input
+                      label(for="localCacheDisabled") Disable Proxy Content-Cache
+                
+
+                  div.form-group
+                    label(for="proxyMaxAge") Maximum age of proxied cache resources
+                    input(id="proxyMaxAge" name="site_proxy_cache_max_age").form-control
+
+          div.col-sm.w-50.d-flex.align-items-stretch
+            div.card.w-100
+              div.card-body 
+                div.card-title Backend mode
+                div.card-text
+                  div.form-group
+                    div.form-check
+                      input(type="radio" name="site_proxy_live_enabled" id="proxyLiveEnabled" value="true").form-check-input
+                      label(for="proxyLiveEnabled") Backends fetch live data from internet 
+                    div.form-check
+                      input(type="radio" name="site_proxy_live_enabled" id="proxyLiveDisabled" value="false").form-check-input
+                      label(for="proxyLiveDisabled") Backends use local data (offline)
 
 
         button(type="submit").btn.btn-primary Submit

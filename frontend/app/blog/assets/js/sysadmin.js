@@ -12,9 +12,26 @@ function update_settings() {
     document.getElementById('aboutPageReleases').value = release_count;
     document.getElementById('proxyMaxAge').value = proxy_max_age
     document.getElementById('localMaxAge').value = local_max_age
-    allow_coffee == "true" ? document.getElementById('coffeeEnabled').checked = true : document.getElementById('coffeeDisabled').checked = true;
+    if ( allow_coffee == "true" ) {
+        document.getElementById('coffeeEnabled').checked = true
+        document.getElementById('coffeeRewrite').disabled = true
+        document.getElementById('coffeeRedirect').disabled = true
+    } else {
+        document.getElementById('coffeeDisabled').checked = true;  
+    }
     coffee_action == "rewrite" ? document.getElementById('coffeeRewrite').checked = true : document.getElementById('coffeeRedirect').checked = true
     allow_proxy_cache == "true" ? document.getElementById('proxyCacheEnabled').checked = true : document.getElementById('proxyCacheDisabled').checked = true
     allow_local_cache == "true" ? document.getElementById('localCacheEnabled').checked = true : document.getElementById('localCacheDisabled').checked = true
     proxy_live == "true" ? document.getElementById('proxyLiveEnabled').checked = true : document.getElementById('proxyLiveDisabled').checked = true
+
+    document.getElementById('coffeeDisabled').onclick = function() {
+        document.getElementById('coffeeRewrite').disabled = false
+        document.getElementById('coffeeRedirect').disabled = false
+    }
+
+    document.getElementById('coffeeEnabled').onclick = function() {
+        document.getElementById('coffeeRewrite').disabled = true
+        document.getElementById('coffeeRedirect').disabled = true
+    }
+
 }
