@@ -7,6 +7,7 @@ function update_settings() {
     let allow_local_cache = get_cookie('site_settings_local_cache');
     let proxy_max_age = get_cookie('site_settings_proxy_cache_age');
     let local_max_age = get_cookie('site_settings_local_cache_age');
+    let proxy_live = get_cookie('site_settings_proxy_live_enabled');
     document.getElementById('homePageBlogs').value = blog_count;
     document.getElementById('aboutPageReleases').value = release_count;
     document.getElementById('proxyMaxAge').value = proxy_max_age
@@ -15,4 +16,5 @@ function update_settings() {
     coffee_action == "rewrite" ? document.getElementById('coffeeRewrite').checked = true : document.getElementById('coffeeRedirect').checked = true
     allow_proxy_cache == "true" ? document.getElementById('proxyCacheEnabled').checked = true : document.getElementById('proxyCacheDisabled').checked = true
     allow_local_cache == "true" ? document.getElementById('localCacheEnabled').checked = true : document.getElementById('localCacheDisabled').checked = true
+    proxy_live == "true" ? document.getElementById('proxyLiveEnabled').checked = true : document.getElementById('proxyLiveDisabled').checked = true
 }

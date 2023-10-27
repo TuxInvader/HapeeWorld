@@ -78,6 +78,18 @@ block content
               label(for="proxyMaxAge") Maximum age of proxied cache resources
               input(id="proxyMaxAge" name="site_proxy_cache_max_age").form-control
 
+        fieldset 
+          legend Backend mode
+          div.mb-3
+            div.form-group
+              div.form-check
+                input(type="radio" name="site_proxy_live_enabled" id="proxyLiveEnabled" value="true").form-check-input
+                label(for="localCacheEnabled") Backends fetch live data from internet 
+              div.form-check
+                input(type="radio" name="site_proxy_live_enabled" id="proxyLiveDisabled" value="false").form-check-input
+                label(for="localCacheDisabled") Backends use local data (offline)
+
+
         button(type="submit").btn.btn-primary Submit
 
     <script>update_settings()</script>
