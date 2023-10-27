@@ -6,7 +6,7 @@ web_domain             www.hapee.world
 proxy_live             false
 blog_count             2
 release_count          6
-coffee_enabled         false
+coffee_enabled         true
 coffee_deny_action     rewrite
 proxy_cache_enabled    true
 local_cache_enabled    true

@@ -1,0 +1,23 @@
+HTTP/1.1 404 Not Found
+Cache-Control: no-cache
+Connection: close
+Content-Type: text/html
+Access-Control-Allow-Origin: "*"
+
+
+<html lang="en"><head><title>HAPEE Home</title><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="icon" href="/images/haproxy-icon.svg"/><link rel="stylesheet" href="/css/custom.css"/><link rel="stylesheet" href="/css/styles.css"/><script src="/js/colormode.js"></script><script src="/js/popper.min.js"></script><script src="/js/bootstrap.min.js"></script><script src="/js/apicrud.js"></script></head>
+<body>
+<div class="container py-4">
+<h2 class="text-center">404 Not Found</h2>
+<figure class="text-center">
+  <blockquote class="blockquote">
+    <a href="/tea"><img src="/images/missing.svg" class="w-50"/></a>
+    <p>Sorry, we appear to have forgotten something</p>
+  </blockquote>
+  <figcaption class="blockquote-footer">
+    Hapee World BOfH 
+  </figcaption>
+</figure
+</div>
+</body>
+</html>

@@ -2,7 +2,7 @@
 
 This repository contains a set of containers and instructions for setting up a HAProxy demo environment.
 
-![Screenshot](docs/screenshot.png "Screenshot")
+![Screenshot](docs/images/screenshot.png "Screenshot")
 
 # Containers
 
