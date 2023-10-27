@@ -3,6 +3,7 @@
 top_domain             hapee.world
 api_domain             api.hapee.world
 web_domain             www.hapee.world
+proxy_live             false
 blog_count             2
 release_count          6
 coffee_enabled         false
