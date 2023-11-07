@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import time
+from faker import Faker
 from locust import HttpUser, task, between, run_single_user
 
 class QuickstartUser(HttpUser):
@@ -79,6 +80,36 @@ class QuickstartUser(HttpUser):
           apihost + "/v1/releases",
           "/images/haproxy-icon.svg"
         ]
+      },
+      "login": {
+        "url": "/login",
+        "resources": [
+          "/css/custom.css",
+          "/css/styles.css",
+          "/js/colormode.js",
+          "/js/popper.min.js",
+          "/js/bootstrap.min.js",
+          "/js/apicrud.js",
+          "/js/vis-network.min.js",
+          "/images/hapee-world.png",
+          "/images/loady.png",
+          "/images/haproxy-icon.svg"
+        ]
+      },
+      "register": {
+        "url": "/register",
+        "resources": [
+          "/css/custom.css",
+          "/css/styles.css",
+          "/js/colormode.js",
+          "/js/popper.min.js",
+          "/js/bootstrap.min.js",
+          "/js/apicrud.js",
+          "/js/vis-network.min.js",
+          "/images/hapee-world.png",
+          "/images/loady.png",
+          "/images/haproxy-icon.svg"
+        ]
       }
     }
 
@@ -88,25 +119,42 @@ class QuickstartUser(HttpUser):
         for resource in page["resources"]:
           self.client.get(resource)
 
-    @task
+    @task(1)
+    def hapee_world_login(self):
+      self.get_page("login")
+      fake = Faker()
+      email = fake.email()
+      passwd = fake.password()
+      self.client.post("/login", data={"email": email, "password": passwd})
+
+    @task(1)
+    def hapee_world_register(self):
+      self.get_page("register")
+      fake = Faker()
+      email = fake.email()
+      name = fake.name()
+      passwd = fake.password()
+      self.client.post("/register", data={"email": email, "password": passwd, "name": name} )
+
+    @task(10)
     def hapee_world_home(self):
       self.get_page("homepage")
 
-    @task
+    @task(15)
     def hapee_world_tea(self):
       self.get_page("tea")
 
-    @task
+    @task(15)
     def hapee_world_coffee(self):
       self.get_page("coffee")
 
-    @task
+    @task(15)
     def hapee_world_about(self):
       self.get_page("about")
 
     def on_start(self):
       self.get_page("homepage")
-        
+
 if __name__ == "__main__":
     run_single_user(QuickstartUser)
 
