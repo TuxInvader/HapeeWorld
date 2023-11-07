@@ -1,7 +1,7 @@
 #!/bin/bash
 
-mkdir -p /data/db
-mongod &
+#mkdir -p /data/db
+#mongod &
 
 htpasswd -bc "/usr/app/${APP_NAME}/users.htpasswd" "${API_ACCESS_USER}" "${API_ACCESS_PASS}"
 

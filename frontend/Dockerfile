@@ -8,6 +8,7 @@ ENV BS_VERSION="5.3.2"
 ENV APP_NAME="blog"
 ENV NODE_ENV="production"
 ENV DATABASE="mongodb://localhost:27017/blog"
+ENV LISTEN_PORT=3000
 
 WORKDIR "${WORK_DIR}"
 EXPOSE 3000

@@ -1,7 +1,11 @@
 #!/bin/bash
 
-mkdir -p /data/db
-mongod &
+echo "${DATABASE}" | grep localhost > /dev/null
+if [ "$?" -eq 0 ]
+then
+  mkdir -p /data/db
+  mongod &
+fi
 
 source /usr/local/nvm/nvm.sh
 cd "/usr/app/${APP_NAME}"

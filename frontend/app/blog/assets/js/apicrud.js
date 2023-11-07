@@ -108,11 +108,11 @@ function get_resources(type, outputElement, outypeType, number=1) {
   xmlhttp.send();
 }
 
-function get_connection_info() {
+function get_connection_info(data) {
   let hapee_hw = get_cookie("hapee_hw")
   let hapee_sys = get_cookie("hapee_sys")
   process_item("cookie", {"result": "OK", "items": [ JSON.parse(hapee_hw) ] }, "hapee_hw", "table");
-  process_item("cookie", {"result": "OK", "items": [ JSON.parse(hapee_sys) ] }, "hapee_sys", "table");
+  process_item("cookie", {"result": "OK", "items": [ data ] }, "hapee_sys", "table");
 }
 
 function get_cookie(cname) {
@@ -129,4 +129,95 @@ function get_cookie(cname) {
     }
   }
   return "";
+}
+
+function  draw_network( data ) {
+
+  console.log("drawing data:")
+  console.log(data)
+
+  let servers = data.servers.split(',')
+  let hapees = data.hapees.split(',')
+  let local = data.local.replace(/::ffff:/, '')
+
+  let dot = `digraph net {\n node [shape=box]\n nd_1 [ label = "CLT: ${data.xff}", color=cyan ]\n` 
+
+  hapees.forEach( (hapee, idx1 ) => {
+
+    if ( data.hostname == hapee ) {
+      dot += ` nd_hap${idx1} [label = "HAP: ${hapee}", color = cyan, tooltip = "${data.xfp}://${data.host}", group = "HAPEE" ]\n`
+      dot += ` nd_1 -> nd_hap${idx1} [label="${data.xfp}", color = cyan]\n`
+    } else {
+      dot += ` nd_hap${idx1} [label = "HAP: ${hapee}", color=grey, group = "HAPEE"]\n`
+    }
+
+    if ( idx1 > 0) {
+      sdx = idx1 -1
+      dot += ` nd_hap${sdx} -> nd_hap${idx1} [color=grey, dir = none]\n`
+    }
+
+
+    servers.forEach( (server, idx2) => {
+
+      foundServer = false
+      if ( ! servers.includes(local) ) {
+        // must be NATed - Use port number
+        port = server.replace(/^[^:]*:/, "")
+        if ( local.endsWith(port)) {
+          console.log(`found port: ${port}`)
+          foundServer = true
+        }
+      } else {
+        if ( server == local ) {
+          console.log("found match")
+          foundServer = true
+        }
+      }
+
+      if ( foundServer == true ) {
+        if ( idx1 == 0 ) {
+          dot += ` nd_s${idx2} [ label = "SVR: ${server}", color=cyan, group = "SERVERS"]\n`
+        }
+        if (data.hostname == hapee) {
+          dot += ` nd_hap${idx1} -> nd_s${idx2} [color=cyan]\n`
+        } else {
+          dot += ` nd_hap${idx1} -> nd_s${idx2} [color=grey, dir = none]\n`
+        }
+        
+      } else {
+        console.log("not found")
+        if ( idx1 == 0 ) {
+          dot += ` nd_s${idx2} [ label = "SVR: ${server}", color=grey, group = "SERVERS"]\n`
+        }
+        dot += ` nd_hap${idx1} -> nd_s${idx2} [color=grey, dir = none]\n`
+      }
+    })
+
+  }) 
+  dot += "}\n"
+
+  console.log("drawing DoT:")
+  console.log(dot)
+
+  let parsedData = vis.parseDOTNetwork(dot)
+  let net = {
+    nodes: parsedData.nodes,
+    edges: parsedData.edges
+  }
+  let container = document.getElementById("network-div")
+  let options = { 
+    layout: {
+      hierarchical: {
+        enabled: false
+      }
+    },
+    physics: { 
+      hierarchicalRepulsion: { 
+        nodeDistance: 300, 
+        springLength: 200, 
+        avoidOverlap: 1 }
+      }
+    }
+
+  let network = new vis.Network(container, net, options);
 }

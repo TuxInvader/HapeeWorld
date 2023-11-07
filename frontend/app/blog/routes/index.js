@@ -16,8 +16,36 @@ router.get('/', (req, res) => {
     res.render('home', { title: 'HAPEE Home', location: 'home' });
 });
 
+router.get('/request/needs/200', ((req,res) => {
+    let num = Math.floor(Math.random() * 100);
+    if ( num %2 == 0 ) {
+        res.status(200).send(
+            '{"status": 200, "int": ' + num + ', "rewritten": false, "headers": [ ' +
+            JSON.stringify(req.headers) + " ] }\n"
+        )
+    } else {
+        res.status(400)
+        .setHeader("X-Reason", "No Reason")
+        .send(
+            '{"status": 400, "int": ' + num + ', "rewritten": false, "headers": [ ' +
+            JSON.stringify(req.headers) + " ] }\n"
+        )
+    }
+}));
+
+router.get('/rewrite/request/needs/200', ((req,res) => {
+    res.status(200).send(
+        '{"status": 200, "int": 101, "rewritten": true, "headers": [ ' +
+        JSON.stringify(req.headers) + " ] }\n"
+    )
+}));
+
 router.get('/about', (req, res) => {
-    res.render('about', { title: 'About Us', location: 'about' });
+    let data = {xfp: req.get("X-Forwarded-proto"), xff: req.get("X-Forwarded-For"), cluster_id: req.get("X-Cluster-Id"),
+               hostname: req.get("X-Hostname"), host: req.get("Host"), servers: req.get("X-Servers"), hapees: req.get("X-Hapees"),
+               local: req.connection.localAddress + ":" + req.connection.localPort,
+               remote: req.connection.remoteAddress + ":" + req.connection.remotePort}
+    res.render('about', { title: 'About Us', location: 'about', data: data});
 });
 
 router.get('/register', (req, res) => {

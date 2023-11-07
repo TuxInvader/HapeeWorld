@@ -1,7 +1,6 @@
 extends layout
 
 block content
-  -data = data || {}
 
   div.container-fluid
     div.container
@@ -12,6 +11,13 @@ block content
 
     div.container 
       h2 Your Connection
+
+      div(id="network-div").h-50.w-75
+        script draw_network( data={
+          each val, key in data
+            | #{key}: "#{val}",
+          | }) 
+
       div
         table(id="hapee_sys").table
       div
@@ -24,5 +30,4 @@ block content
 
 
     script get_releases()
-    script get_connection_info()
-
+    script get_connection_info( data={ hostname: "#{data.hostname}", cluster_id: "#{data.cluster_id}", server: "#{data.local.replace(/::ffff:/, '')}" } )
