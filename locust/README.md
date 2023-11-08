@@ -22,4 +22,13 @@ You can also execute the script directly to have a single client access the site
 python3 hapee-locust.py
 ```
 
+## Usage with socks
 
+If you want to use a socks proxy/proxies for some/all of the requests, then you can set the following environment variables
+
+```
+LOCUST_USE_SOCKS=50                            # percentage of requests to use proxy for (0-100)
+LOCUST_SOCKS_HOSTS=s1.london.com,s1.paris.com  # CSV list of socks hosts to use
+LOCUST_SOCKS_AUTH=user:password                # authentication user:password
+LOCUST_SOCKS_PORT=1080                         # socks listening port
+```

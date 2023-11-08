@@ -1,8 +1,11 @@
 #!/usr/bin/env python
 
 import time
+import os
 from faker import Faker
+from random import randint, choice
 from locust import HttpUser, task, between, run_single_user
+from locust.clients import HttpSession
 
 class QuickstartUser(HttpUser):
     wait_time = between(1, 5)
@@ -113,28 +116,63 @@ class QuickstartUser(HttpUser):
       }
     }
 
-    def get_page(self, pagename):
-        page = self.pages[ pagename ]
-        self.client.get(page["url"])
-        for resource in page["resources"]:
-          self.client.get(resource)
+    def set_proxies(self):
+      self.proxies = {}
+      use_socks = int(os.getenv("LOCUST_USE_SOCKS"))
+      if ( use_socks >= 0):
+        if ( randint(1,100) <= use_socks ):
+          host = choice(os.getenv("LOCUST_SOCKS_HOSTS").split(','))
+          auth = os.getenv("LOCUST_SOCKS_AUTH")
+          port = os.getenv("LOCUST_SOCKS_PORT")
+          proxy = "socks5://"
+          if ( auth ):
+            proxy += auth + "@"
+          proxy += host
+          if ( port ):
+            proxy += ":" + port
+          self.proxies = { "http": proxy, "https": proxy }
 
+    def get_page(self, pagename):
+        self.set_proxies()
+        page = self.pages[ pagename ]
+        self.client.request("GET", page["url"], proxies=self.proxies)
+        for resource in page["resources"]:
+          self.client.request("GET", resource, proxies=self.proxies)
+
+    def gen_person(self):
+        fake = Faker()
+        person = {}
+        gs = randint(0,2)
+        if ( gs == 0 ):
+          person["gender"] = "Male"
+          person["firstname"] = fake.first_name_male()
+        elif ( gs == 1 ):
+          person["gender"] ="Female"
+          person["firstname"] = fake.first_name_female()
+        else:
+          person["gender"] = "nonbinary"
+          person["firstname"] = fake.first_name_nonbinary()
+        person["lastname"] = fake.last_name()
+        person["passwd"] = fake.password()
+        domain = fake.domain_name()
+        if ( randint(0,1) == 0):
+          person["email"] = person["firstname"][0] + "." + person["lastname"] + "@" + domain
+        else:
+           person["email"] = person["firstname"] + "." + person["lastname"] + "@" + domain
+        person["name"] = person["firstname"] + " " + person["lastname"]
+        return person
+    
     @task(1)
     def hapee_world_login(self):
       self.get_page("login")
-      fake = Faker()
-      email = fake.email()
-      passwd = fake.password()
-      self.client.post("/login", data={"email": email, "password": passwd})
+      person = self.gen_person()
+      self.client.request("POST", "/login", data={"email": person["email"], "password": person["passwd"]},  proxies=self.proxies)
 
     @task(1)
     def hapee_world_register(self):
       self.get_page("register")
-      fake = Faker()
-      email = fake.email()
-      name = fake.name()
-      passwd = fake.password()
-      self.client.post("/register", data={"email": email, "password": passwd, "name": name} )
+      person = self.gen_person()
+      self.client.request("POST", "/register", data={"email": person["email"], "password": person["passwd"], "name": person["name"]},  proxies=self.proxies)
 
     @task(10)
     def hapee_world_home(self):
