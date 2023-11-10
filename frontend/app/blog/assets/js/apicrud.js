@@ -140,20 +140,31 @@ function  draw_network( data ) {
   let hapees = data.hapees.split(',')
   let local = data.local.replace(/::ffff:/, '')
 
-  let dot = `digraph net {\n node [shape=box]\n nd_1 [ label = "CLT: ${data.xff}", color=cyan ]\n` 
+  let selected = 'black'
+  let unselected = 'grey'
+  let selbg = 'yellow'
+  let unselbg = 'white'
+  if ( localStorage.getItem('theme') == 'dark' ) {
+    selected = 'cyan'
+    unselected = 'grey'
+    selbg = 'black'
+    unselbg = 'black'
+  }
+  let dot = `digraph net {\n node [shape = box, beautify = true, chosen=false]\n nd_1 [ label = "Client: ${data.xff}", fontcolor = ${selected}, fontsize = 16, 
+            x = 0, y = 0, allowedToMoveX = true, allowedToMoveY = true, image = "/images/client.svg"]\n` 
 
   hapees.forEach( (hapee, idx1 ) => {
 
     if ( data.hostname == hapee ) {
-      dot += ` nd_hap${idx1} [label = "HAP: ${hapee}", color = cyan, tooltip = "${data.xfp}://${data.host}", group = "HAPEE" ]\n`
-      dot += ` nd_1 -> nd_hap${idx1} [label="${data.xfp}", color = cyan]\n`
+      dot += ` nd_hap${idx1} [label = "HAP: ${hapee}", fontcolor = ${selected}, fontsize = 16, tooltip = "${data.xfp}://${data.host}", group = "HAPEE",  image = "/images/haproxy-icon.svg", imagescale=true ]\n`
+      dot += ` nd_1 -> nd_hap${idx1} [label="${data.xfp}", length=200]\n`
     } else {
-      dot += ` nd_hap${idx1} [label = "HAP: ${hapee}", color=grey, group = "HAPEE"]\n`
+      dot += ` nd_hap${idx1} [shape=image, label = "HAP: ${hapee}", fontcolor=${unselected}, group = "HAPEE",  image = "/images/haproxy-icon.svg", imagescale=true]\n`
     }
 
     if ( idx1 > 0) {
       sdx = idx1 -1
-      dot += ` nd_hap${sdx} -> nd_hap${idx1} [color=grey, dir = none]\n`
+      dot += ` nd_hap${sdx} -> nd_hap${idx1} [fontcolor=${unselected}, dir = none]\n`
     }
 
 
@@ -176,20 +187,20 @@ function  draw_network( data ) {
 
       if ( foundServer == true ) {
         if ( idx1 == 0 ) {
-          dot += ` nd_s${idx2} [ label = "SVR: ${server}", color=cyan, group = "SERVERS"]\n`
+          dot += ` nd_s${idx2} [ label = "SVR: ${server}", fontcolor=${selected}, fontsize = 16, fillcolor=${selbg}, group = "SERVERS"]\n`
         }
         if (data.hostname == hapee) {
-          dot += ` nd_hap${idx1} -> nd_s${idx2} [color=cyan]\n`
+          dot += ` nd_hap${idx1} -> nd_s${idx2} [fontcolor=${selected}, fontsize = 16]\n`
         } else {
-          dot += ` nd_hap${idx1} -> nd_s${idx2} [color=grey, dir = none]\n`
+          dot += ` nd_hap${idx1} -> nd_s${idx2} [fontcolor=${unselected}, dir = none]\n`
         }
         
       } else {
         console.log("not found")
         if ( idx1 == 0 ) {
-          dot += ` nd_s${idx2} [ label = "SVR: ${server}", color=grey, group = "SERVERS"]\n`
+          dot += ` nd_s${idx2} [ label = "SVR: ${server}", fontcolor=${unselected}, fillcolor=${unselbg}, group = "SERVERS"]\n`
         }
-        dot += ` nd_hap${idx1} -> nd_s${idx2} [color=grey, dir = none]\n`
+        dot += ` nd_hap${idx1} -> nd_s${idx2} [fontcolor=${unselected}, dir = none]\n`
       }
     })
 
@@ -212,6 +223,7 @@ function  draw_network( data ) {
       }
     },
     physics: { 
+      stabilization: false,
       hierarchicalRepulsion: { 
         nodeDistance: 300, 
         springLength: 200, 
@@ -220,4 +232,12 @@ function  draw_network( data ) {
     }
 
   let network = new vis.Network(container, net, options);
+
+  // listen for theme changes and redraw
+  document.querySelectorAll('[data-bs-theme-value]').forEach(toggle => {
+    toggle.addEventListener('click', () => {
+      draw_network( data )
+    })
+  })
+  
 }
